@@ -19,7 +19,9 @@
 package it.gmariotti.changelibs.library.view;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -27,15 +29,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.widget.Toast;
 
-import it.gmariotti.changelibs.R;
+import com.android.settings.R;
+
 import it.gmariotti.changelibs.library.Constants;
 import it.gmariotti.changelibs.library.Util;
 import it.gmariotti.changelibs.library.internal.ChangeLog;
-import it.gmariotti.changelibs.library.internal.ChangeLogAdapter;
 import it.gmariotti.changelibs.library.internal.ChangeLogRecyclerViewAdapter;
-import it.gmariotti.changelibs.library.internal.ChangeLogRow;
 import it.gmariotti.changelibs.library.parser.XmlParser;
 
 /**
@@ -50,7 +50,6 @@ public class ChangeLogRecyclerView extends RecyclerView {
     //--------------------------------------------------------------------------
     protected int mRowLayoutId= Constants.mRowLayoutId;
     protected int mRowHeaderLayoutId=Constants.mRowHeaderLayoutId;
-    protected int mChangeLogFileResourceId=Constants.mChangeLogFileResourceId;
     protected String mChangeLogFileResourceUrl=null;
 
     //--------------------------------------------------------------------------
@@ -125,7 +124,6 @@ public class ChangeLogRecyclerView extends RecyclerView {
             mRowHeaderLayoutId = a.getResourceId(R.styleable.ChangeLogListView_rowHeaderLayoutId, mRowHeaderLayoutId);
 
             //Changelog.xml file
-            mChangeLogFileResourceId = a.getResourceId(R.styleable.ChangeLogListView_changeLogFileResourceId,mChangeLogFileResourceId);
 
             mChangeLogFileResourceUrl = a.getString(R.styleable.ChangeLogListView_changeLogFileResourceUrl);
             //String which is used in header row for Version
@@ -148,7 +146,7 @@ public class ChangeLogRecyclerView extends RecyclerView {
             if (mChangeLogFileResourceUrl!=null)
                 parse = new XmlParser(getContext(),mChangeLogFileResourceUrl);
             else
-                parse = new XmlParser(getContext(),mChangeLogFileResourceId);
+                parse = new XmlParser(getContext());
             //ChangeLog chg=parse.readChangeLogFile();
             ChangeLog chg = new ChangeLog();
 
@@ -161,7 +159,7 @@ public class ChangeLogRecyclerView extends RecyclerView {
             if (mChangeLogFileResourceUrl==null || (mChangeLogFileResourceUrl!=null && Util.isConnected(getContext())))
                 new ParseAsyncTask(mAdapter,parse).execute();
             else
-                Toast.makeText(getContext(), R.string.changelog_internal_error_internet_connection, Toast.LENGTH_LONG).show();
+                Dialog();
             setAdapter(mAdapter);
 
         }catch (Exception e){
@@ -170,6 +168,18 @@ public class ChangeLogRecyclerView extends RecyclerView {
 
     }
 
+    public void Dialog() {
+        AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+        alertDialog.setTitle("Attention");
+        alertDialog.setMessage("Please enable WiFi/Mobile data to download the changelog from our server.");
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                System.exit(0);
+            }
+        });
+        alertDialog.show();
+    }
 
     /**
      * Async Task to parse xml file in a separate thread
@@ -180,9 +190,9 @@ public class ChangeLogRecyclerView extends RecyclerView {
         private ChangeLogRecyclerViewAdapter mAdapter;
         private XmlParser mParse;
 
-        public ParseAsyncTask(ChangeLogRecyclerViewAdapter adapter,XmlParser parse){
-            mAdapter=adapter;
-            mParse= parse;
+        public ParseAsyncTask(ChangeLogRecyclerViewAdapter adapter, XmlParser parse) {
+            mAdapter = adapter;
+            mParse = parse;
         }
 
         @Override
@@ -194,7 +204,6 @@ public class ChangeLogRecyclerView extends RecyclerView {
                     return chg;
                 }
             }catch (Exception e){
-                Log.e(TAG,getResources().getString(R.string.changelog_internal_error_parsing),e);
             }
             return null;
         }
@@ -206,6 +215,5 @@ public class ChangeLogRecyclerView extends RecyclerView {
                 mAdapter.add(chg.getRows());                            }
         }
     }
-
-
 }
+
