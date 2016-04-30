@@ -37,7 +37,7 @@
             android:paddingBottom="@dimen/chglib_material_keyline1"
             android:gravity="center_vertical"
             style="?android:attr/listSeparatorTextViewStyle"
-            android:text="JUNE 17,2013"
+            android:text="@string/changelog_headerdate"
             android:textAllCaps="true"
             android:textStyle="bold"
             android:textColor="@color/chglib_material_color_text_1"

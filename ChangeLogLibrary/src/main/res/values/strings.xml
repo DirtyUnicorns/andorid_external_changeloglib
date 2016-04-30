@@ -21,4 +21,7 @@
     <!-- Prefix for Improvement type change log -->
     <string name="changelog_row_prefix_improvement">[b]New:[/b]</string>
 
+    <string name="blank"></string>
+    <string name="changelog_headerdate">JUNE 17,2013</string>
+
 </resources>
