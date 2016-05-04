@@ -170,10 +170,10 @@ public class ChangeLogRecyclerView extends RecyclerView {
 
     public void Dialog() {
         AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
-        alertDialog.setTitle("Attention");
-        alertDialog.setMessage("Please enable WiFi/Mobile data to download the changelog from our server.");
+        alertDialog.setTitle(getResources().getString(R.string.changelog_dialog_title));
+        alertDialog.setMessage(getResources().getString(R.string.changelog_dialog_message));
         alertDialog.setCanceledOnTouchOutside(false);
-        alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+        alertDialog.setButton(getResources().getString(R.string.changelog_dialog_ok), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 System.exit(0);
             }
