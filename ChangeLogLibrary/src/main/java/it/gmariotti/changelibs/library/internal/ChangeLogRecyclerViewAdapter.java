@@ -31,9 +31,10 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import it.gmariotti.changelibs.R;
 import it.gmariotti.changelibs.library.Constants;
 import it.gmariotti.changelibs.library.view.ChangeLogRecyclerView;
+
+import com.android.settings.R;
 
 /**
  * Created by g.mariotti on 17/06/2015.

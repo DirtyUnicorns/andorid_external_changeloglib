@@ -15,7 +15,7 @@
  ******************************************************************************/
 package it.gmariotti.changelibs.library;
 
-import it.gmariotti.changelibs.R;
+import com.android.settings.R;
 
 /**
  * Constants used by library

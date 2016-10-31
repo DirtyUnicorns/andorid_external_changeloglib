@@ -17,7 +17,7 @@ package it.gmariotti.changelibs.library.internal;
 
 import android.content.Context;
 
-import it.gmariotti.changelibs.R;
+import com.android.settings.R;
 
 /**
  * ChangeLogRow model

@@ -26,8 +26,9 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import it.gmariotti.changelibs.R;
 import it.gmariotti.changelibs.library.Constants;
+
+import com.android.settings.R;
 
 /**
  * Adapter for ChangeLog model
